@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
-
+var request = require('request');
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
  * Consider using the `paths` object below to store frequently used file paths. This way,
@@ -27,16 +27,34 @@ exports.initialize = function(pathsObj) {
 // modularize your code. Keep it clean!
 
 exports.readListOfUrls = function(callback) {
+  fs.readFile(exports.paths.list, 'utf-8', function(err, f) {
+    callback(f.toString().split('\n'));
+  });
 };
 
 exports.isUrlInList = function(url, callback) {
+  exports.readListOfUrls((data) => {
+    callback(_.contains(data, url));
+  });
 };
 
 exports.addUrlToList = function(url, callback) {
+  fs.appendFile(exports.paths.list, url, 'utf-8', callback);
 };
 
 exports.isUrlArchived = function(url, callback) {
+  fs.exists(exports.paths.archivedSites + '/' + url, (exists) => {
+    callback(exists);
+  });
 };
 
 exports.downloadUrls = function(urls) {
+  // for (var i = 0; i < urls.length; i++) {
+  //   request('https://' + urls[i]) 
+  //     .pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + urls[i])); 
+  // }
+  urls.forEach((url) => {
+    request('https://' + url)
+      .pipe(fs.createWriteStream(exports.paths.archivedSites + '/' + url)); 
+  });
 };

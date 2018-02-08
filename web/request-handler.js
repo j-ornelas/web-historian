@@ -6,8 +6,8 @@ var fs = require('fs');
 var actions = {
   'GET': function(req, res) {
     
-    console.log('archive.paths.index', archive.paths.index);
-    console.log('archive.paths.list', archive.paths.list);
+    // console.log('archive.paths.index', archive.paths.index);
+    // console.log('archive.paths.list', archive.paths.list);
     //console.log(path.paths.index);
     // console.log('GET request = ', req);
     //console.log('GET response = ', res);  
@@ -15,6 +15,7 @@ var actions = {
     //console.log('archive.paths', archive.paths); 
     //console.log('archive', archive);  
     
+
 
     fs.readFile(__dirname + '/public/index.html', 'utf-8', (err, data) => {
       if (err) {
@@ -27,8 +28,8 @@ var actions = {
     });
   },
   'POST': function(req, res) {
-    console.log('POST request = ', req);
-    console.log('POST response = ', res);      
+    // console.log('POST request = ', req);
+    // console.log('POST response = ', res);      
       
     var data = '';
     req.on('data', function(chunk) {
