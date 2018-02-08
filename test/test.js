@@ -57,6 +57,7 @@ describe('server', function() {
         var url = 'www.example.com';
 
         // Reset the test file and process request
+        console.log('ARCHIVE PATH', archive.paths.list);
         fs.closeSync(fs.openSync(archive.paths.list, 'w'));
 
         request
@@ -66,6 +67,7 @@ describe('server', function() {
           .expect(302, function (err) {
             if (!err) {
               var fileContents = fs.readFileSync(archive.paths.list, 'utf8');
+              console.log('FILE CONTENTS', fileContents);
               expect(fileContents).to.equal(url + '\n');
             }
 

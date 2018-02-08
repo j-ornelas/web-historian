@@ -14,12 +14,15 @@ var actions = {
     //console.log('archive.paths.index', archive.paths.index); 
     //console.log('archive.paths', archive.paths); 
     //console.log('archive', archive);  
-    
+    var websiteUrl = (req.url === '/') 
+      ? ('/public/index.html') 
+      : ('/archives/sites' + req.url);
 
-
-    fs.readFile(__dirname + '/public/index.html', 'utf-8', (err, data) => {
+    fs.readFile(__dirname + websiteUrl, 'utf-8', (err, data) => {
+      console.log(req.url);
       if (err) {
-        console.log('error');
+        res.writeHead(404, {'Content-Type': 'text/html'});
+        res.end(data);
       } else {
         console.log('success');
         res.writeHead(200, {'Content-Type': 'text/html'});
@@ -33,11 +36,11 @@ var actions = {
       
     var data = '';
     req.on('data', function(chunk) {
-      data += chunk + '\n';
+      data += chunk;
       data = data.slice(4);
     });
     req.on('end', function() {
-      fs.appendFile(__dirname + '/archives/sites.txt', data, (err) => {
+      fs.appendFile('/Users/student/code/hrsf90-web-historian/archives/sites.txt', data, (err) => {
         if (err) {
           throw err;
         }
